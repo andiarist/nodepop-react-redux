@@ -13,16 +13,31 @@ class LoginPage extends React.Component {
   };
 
   handleSubmit = credentials => {
-    const { onLogin, location, history } = this.props;
+    const { onLogin, location, history, isLogged } = this.props;
+    console.log('props en LoginPage:', this.props);
+
+    console.log('onLogin en LoginPage:', onLogin);
+
     this.resetError();
+
     login(credentials)
       .then(() => {
+        console.log('antes de entrar al onLogin');
+        console.log('credentials:', credentials);
+        //isLogged = true;
+        //function onLogin(){
+        //  console.log('entra en onLogin');
+        //}
         onLogin(() => {
+          console.log('entra en onLogin');
+
           // Navigate to previously required route
-          // Estas dos lineas son el cb, que es lo que se ejecuta desde la App
+
           const { from } = location.state || { from: { pathname: '/' } };
+          console.log('from:', from);
           history.replace(from);
         });
+        console.log('fuera de onLogin');
       })
       .catch(error => {
         this.setState({ error });
@@ -60,6 +75,7 @@ LoginPage.propTypes = {
   location: T.shape({
     state: T.shape({ from: T.shape({ pathname: T.string }) }),
   }).isRequired,
+  isLogged: T.bool,
 };
 
 export default LoginPage;
