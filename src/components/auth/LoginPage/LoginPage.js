@@ -19,7 +19,7 @@ class LoginPage extends React.Component {
       .then(() => {
         onLogin(() => {
           // Navigate to previously required route
-          // Estas dos lineas son el cb, que es lo que se ejecuta desde la App
+          // Estas dos lineas son el cb, que es lo que se ejecuta desde App
           const { from } = location.state || { from: { pathname: '/' } };
           history.replace(from);
         });

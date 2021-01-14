@@ -25,11 +25,11 @@ console.log('store.getState().auth:', store.getState().auth);
 
 const render = () => {
   ReactDOM.render(
-    <Root>
-      <App dispatch={store.dispatch} isLogged={store.getState().auth} />
+    <Root store={store}>
+      <App />
     </Root>,
     document.getElementById('root'),
   );
 };
-store.subscribe(render);
+
 render();
