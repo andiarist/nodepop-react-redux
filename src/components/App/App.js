@@ -18,7 +18,9 @@ class App extends React.Component {
   handleLogin = cb => {
     //this.setState({ isLogged: true }, cb);
     console.log('cb que llega al handleSubmit de App:', cb);
-    this.props.authLogin(this.props.isLogged);
+    //this.props.authLogin(this.props.isLogged);
+    this.props.authLogin(true);
+    cb();
   };
 
   handleLogout = () => this.props.authLogout();
