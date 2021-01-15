@@ -10,7 +10,7 @@ import FiltersForm, { defaultFilters } from './FiltersForm';
 import AdvertCard from './AdvertCard';
 
 import * as actions from '../../../store/actions';
-//import { getIsLogged } from '../../store/selectors';
+import { getAdvertsList } from '../../../store/selectors';
 
 class AdvertsPage extends React.Component {
   state = {
@@ -103,7 +103,8 @@ class AdvertsPage extends React.Component {
   };
 
   renderAdverts = () => {
-    const { adverts, loading, error } = this.state;
+    const { loading, error } = this.state;
+    const adverts = this.props.getAdvertsList;
 
     if (loading) {
       return this.renderLoading();
@@ -154,15 +155,16 @@ class AdvertsPage extends React.Component {
   }
 }
 
-//const mapStateToProps = state => {
-//  return {
-//    isLogged: getIsLogged(state),
-//  };
-//};
+const mapStateToProps = state => {
+  return {
+    getAdvertsList: getAdvertsList(state),
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     advertsLoaded: adverts => dispatch(actions.advertsLoaded(adverts)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(AdvertsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AdvertsPage);

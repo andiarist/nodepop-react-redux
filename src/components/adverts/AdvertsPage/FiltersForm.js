@@ -59,8 +59,7 @@ class FiltersForm extends React.Component {
                     {priceValue.join(' - ')}
                   </strong>
                 </>
-              }
-            >
+              }>
               <Slider
                 range
                 defaultValue={priceValue}
@@ -87,8 +86,7 @@ class FiltersForm extends React.Component {
               className={styles.button}
               type="primary"
               htmlType="submit"
-              block
-            >
+              block>
               Search
             </Button>
           </Col>

@@ -3,6 +3,7 @@ import * as types from './types';
 export const initialState = {
   auth: false,
   adverts: null,
+  tags: null,
 };
 
 export const auth = (state = initialState.auth, action) => {
@@ -25,11 +26,11 @@ export const adverts = (state = initialState.adverts, action) => {
   }
 };
 
-//const reducer = (state = initialState, action) => {
-//  return {
-//    auth: auth(state.auth, action),
-//    adverts: null,
-//  };
-//};
-
-//export default reducer;
+export const tags = (state = initialState.tags, action) => {
+  switch (action.type) {
+    case types.TAGS_LOADED:
+      return action.payload.tags;
+    default:
+      return state;
+  }
+};

@@ -20,8 +20,8 @@ class LoginPage extends React.Component {
     this.resetError();
     login(credentials)
       .then(() => {
-        onLogin(true);
         const { from } = location.state || { from: { pathname: '/' } };
+        onLogin(true);
         history.replace(from);
         //onLogin(() => {
         //  // Navigate to previously required route
