@@ -1,15 +1,15 @@
 import React from 'react';
-import T from 'prop-types';
+//import T from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+//import { connect } from 'react-redux';
 
 import { PrivateRoute, LoginPage } from '../auth';
 import { AdvertPage, AdvertsPage, NewAdvertPage } from '../adverts';
 //import { AuthContextProvider } from '../../contexts/auth';
 import NotFoundPage from './NotFoundPage';
 
-import * as actions from '../../store/actions';
-import { getIsLogged } from '../../store/selectors';
+//import * as actions from '../../store/actions';
+//import { getIsLogged } from '../../store/selectors';
 
 class App extends React.Component {
   //state = {
@@ -59,28 +59,29 @@ class App extends React.Component {
   }
 }
 
-App.propTypes = {
-  isLogged: T.bool,
-  authLogin: T.func,
-  authLogout: T.func,
-};
+//App.propTypes = {
+//  isLogged: T.bool,
+//  authLogin: T.func,
+//  authLogout: T.func,
+//};
 
-const mapStateToProps = state => {
-  return {
-    isLogged: getIsLogged(state),
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    authLogin: isLogged => dispatch(actions.authLogin(isLogged)),
-    authLogout: () => dispatch(actions.authLogout()),
-  };
-};
+//const mapStateToProps = state => {
+//  return {
+//    isLogged: getIsLogged(state),
+//  };
+//};
+//const mapDispatchToProps = dispatch => {
+//  return {
+//    authLogin: isLogged => dispatch(actions.authLogin(isLogged)),
+//    authLogout: () => dispatch(actions.authLogout()),
+//  };
+//};
 
 //const mapDispatchToProps = {
 //  authLogin: actions.authLogin,
 //  authLogout: actions.authLogout,
 //};
 
+export default App;
 //const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+//export default connect(mapStateToProps, mapDispatchToProps)(App);

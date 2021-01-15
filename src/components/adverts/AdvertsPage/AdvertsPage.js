@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Empty, Button, Spin, List, Divider } from 'antd';
 
 import storage from '../../../utils/storage';
@@ -8,9 +9,12 @@ import Layout from '../../layout';
 import FiltersForm, { defaultFilters } from './FiltersForm';
 import AdvertCard from './AdvertCard';
 
+import * as actions from '../../../store/actions';
+//import { getIsLogged } from '../../store/selectors';
+
 class AdvertsPage extends React.Component {
   state = {
-    adverts: null,
+    //adverts: null,
     loading: false,
     error: null,
     filters: storage.get('filters') || defaultFilters,
@@ -41,9 +45,10 @@ class AdvertsPage extends React.Component {
   getAdverts = () => {
     this.setState({ loading: true, error: null });
     getAdverts(this.formatFilters())
-      .then(({ result }) =>
-        this.setState({ loading: false, adverts: result.rows }),
-      )
+      .then(({ result }) => {
+        this.setState({ loading: false });
+        this.props.advertsLoaded(result.rows);
+      })
       .catch(error => this.setState({ loading: false, error }));
   };
 
@@ -62,8 +67,7 @@ class AdvertsPage extends React.Component {
     const { error } = this.state;
     return (
       <Empty
-        description={<span style={{ color: '#ff4d4f' }}>{`${error}`}</span>}
-      >
+        description={<span style={{ color: '#ff4d4f' }}>{`${error}`}</span>}>
         <Button type="primary" danger onClick={this.getAdverts}>
           Reload
         </Button>
@@ -150,4 +154,15 @@ class AdvertsPage extends React.Component {
   }
 }
 
-export default AdvertsPage;
+//const mapStateToProps = state => {
+//  return {
+//    isLogged: getIsLogged(state),
+//  };
+//};
+const mapDispatchToProps = dispatch => {
+  return {
+    advertsLoaded: adverts => dispatch(actions.advertsLoaded(adverts)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AdvertsPage);
