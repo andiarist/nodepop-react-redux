@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import T from 'prop-types';
 import { Alert, Col, Row, Typography } from 'antd';
 
 import { login } from '../../../api/auth';
 import LoginForm from './LoginForm';
+
+import { authLogin } from '../../../store/actions';
 
 const { Title } = Typography;
 
@@ -17,12 +20,15 @@ class LoginPage extends React.Component {
     this.resetError();
     login(credentials)
       .then(() => {
-        onLogin(() => {
-          // Navigate to previously required route
-          // Estas dos lineas son el cb, que es lo que se ejecuta desde App
-          const { from } = location.state || { from: { pathname: '/' } };
-          history.replace(from);
-        });
+        onLogin(true);
+        const { from } = location.state || { from: { pathname: '/' } };
+        history.replace(from);
+        //onLogin(() => {
+        //  // Navigate to previously required route
+        //  // Estas dos lineas son el cb, que es lo que se ejecuta desde App
+        //  const { from } = location.state || { from: { pathname: '/' } };
+        //  history.replace(from);
+        //});
       })
       .catch(error => {
         this.setState({ error });
@@ -62,4 +68,8 @@ LoginPage.propTypes = {
   }).isRequired,
 };
 
-export default LoginPage;
+const mapDispatchToProps = {
+  onLogin: authLogin,
+};
+
+export default connect(null, mapDispatchToProps)(LoginPage);

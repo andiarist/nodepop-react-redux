@@ -8,11 +8,18 @@ export const initialState = {
 export const auth = (state = initialState.auth, action) => {
   switch (action.type) {
     case types.AUTH_LOGIN:
-      // login
       return action.payload.isLogged;
     case types.AUTH_LOGOUT:
-      // logout
       return false;
+    default:
+      return state;
+  }
+};
+
+export const adverts = (state = initialState.adverts, action) => {
+  switch (action.type) {
+    case types.ADVERTS_LOADED:
+      return action.payload.adverts;
     default:
       return state;
   }

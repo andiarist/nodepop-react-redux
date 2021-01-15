@@ -4,16 +4,19 @@ import { LogoutOutlined } from '@ant-design/icons';
 
 import { logout } from '../../api/auth';
 import ConfirmationButton from '../shared/ConfirmationButton';
-import { AuthContextConsumer } from '../../contexts/auth';
+//import { AuthContextConsumer } from '../../contexts/auth';
+import { connect } from 'react-redux';
+import { authLogout } from '../../store/actions';
+import { getIsLogged } from '../../store/selectors';
 
 class LogoutButton extends React.Component {
   handleLogout = () => {
-    const { onLogout } = this.props;
-    logout().then(onLogout);
+    //const { onLogout } = this.props;
+    logout().then(this.props.authLogout);
   };
 
   render() {
-    const { onLogout, ...props } = this.props;
+    const { ...props } = this.props;
     return (
       <ConfirmationButton
         danger
@@ -37,13 +40,25 @@ class LogoutButton extends React.Component {
 }
 
 LogoutButton.propTypes = {
-  onLogout: T.func.isRequired,
+  authLogout: T.func.isRequired,
 };
 
-const ConnectedToAuthLogoutButton = props => (
-  <AuthContextConsumer>
-    {({ onLogout }) => <LogoutButton onLogout={onLogout} {...props} />}
-  </AuthContextConsumer>
-);
+//const ConnectedToAuthLogoutButton = props => (
+//  <AuthContextConsumer>
+//    {({ onLogout }) => <LogoutButton onLogout={onLogout} {...props} />}
+//  </AuthContextConsumer>
+//);
+const mapStateToProps = state => {
+  return {
+    isLogged: getIsLogged(state),
+  };
+};
 
-export default ConnectedToAuthLogoutButton;
+const mapDispatchToProps = dispatch => {
+  return {
+    authLogout: () => dispatch(authLogout()),
+  };
+};
+
+//export default connect(mapDispatchToProps)(ConnectedToAuthLogoutButton);
+export default connect(mapStateToProps, mapDispatchToProps)(LogoutButton);
