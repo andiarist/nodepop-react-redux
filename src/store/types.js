@@ -5,10 +5,16 @@ export const AUTH_LOGIN_FAILURE = 'auth/LOGIN_FAILURE';
 
 export const AUTH_LOGOUT = 'auth/LOGOUT';
 
+export const ADVERTS_LOADED_REQUEST = 'adverts/LOADED_REQUEST';
+export const ADVERTS_LOADED_SUCCESS = 'adverts/LOADED_SUCCESS';
+export const ADVERTS_LOADED_FAILURE = 'adverts/LOADED_FAILURE';
 export const ADVERTS_LOADED = 'adverts/LOADED';
+
+export const ADVERTS_CREATED_REQUEST = 'adverts/CREATED_REQUEST';
+export const ADVERTS_CREATED_SUCCESS = 'adverts/CREATED_SUCCESS';
+export const ADVERTS_CREATED_FAILURE = 'adverts/CREATED_FAILURE';
 export const ADVERTS_CREATED = 'adverts/CREATED';
 
-export const TAGS_LOADED = 'tags/LOADED';
 export const TAGS_LOADED_REQUEST = 'tags/LOADED_REQUEST';
 export const TAGS_LOADED_SUCCESS = 'tags/LOADED_SUCCESS';
 export const TAGS_LOADED_FAILURE = 'tags/LOADED_FAILURE';

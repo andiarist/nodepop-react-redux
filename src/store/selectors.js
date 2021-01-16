@@ -1,6 +1,8 @@
 export const getIsLogged = state => state.auth;
 
-export const getAdvertsList = state => state.adverts;
+export const getAdvertsList = state => state.adverts.adverts;
+export const getAdvertsLoading = state => state.adverts.loading;
+export const getAdvertsError = state => state.adverts.error;
 
 export const getTagList = state => state.tags.tags;
 

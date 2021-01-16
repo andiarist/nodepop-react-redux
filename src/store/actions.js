@@ -4,6 +4,9 @@ import {
   AUTH_LOGIN_FAILURE,
   AUTH_LOGOUT,
   ADVERTS_LOADED,
+  ADVERTS_LOADED_REQUEST,
+  ADVERTS_LOADED_SUCCESS,
+  ADVERTS_LOADED_FAILURE,
   //TAGS_LOADED,
   TAGS_LOADED_REQUEST,
   TAGS_LOADED_SUCCESS,
@@ -48,15 +51,6 @@ export const login = (credentials, location, history) => {
   };
 };
 
-//export const tagsLoaded = tags => {
-//  return {
-//    type: TAGS_LOADED,
-//    payload: {
-//      tags,
-//    },
-//  };
-//};
-
 export const tagsLoadedRequest = () => ({
   type: TAGS_LOADED_REQUEST,
 });
@@ -100,12 +94,54 @@ export const authLogout = () => {
   };
 };
 
-export const advertsLoaded = adverts => {
+export const advertsLoadedRequest = () => ({
+  type: ADVERTS_LOADED_REQUEST,
+});
+
+export const advertsLoadedFailure = error => ({
+  type: ADVERTS_LOADED_FAILURE,
+  error: true,
+  payload: error,
+});
+
+export const advertsLoadedSuccess = adverts => {
   return {
-    type: ADVERTS_LOADED,
+    type: ADVERTS_LOADED_SUCCESS,
     payload: {
       adverts,
     },
+  };
+};
+
+export const advertsLoaded = filters => {
+  return function (dispatch, getState, { api }) {
+    dispatch(advertsLoadedRequest());
+    //const renderLoading = () => (
+    //  <div style={{ display: 'flex', justifyContent: 'center' }}>
+    //    <Spin size="large" />
+    //  </div>
+    //);
+    api.adverts
+      .getAdverts(filters)
+      .then(({ result }) => {
+        //console.log('dentro del then de la llamada al api');
+        //console.log(tags);
+        dispatch(advertsLoadedSuccess(result.rows));
+      })
+      .catch(error => {
+        //const renderError = () => {
+        //  const { error } = this.state;
+        //  return (
+        //    <Empty
+        //      description={<span style={{ color: '#ff4d4f' }}>{`${error}`}</span>}>
+        //      <Button type="primary" danger onClick={this.getAdverts}>
+        //        Reload
+        //      </Button>
+        //    </Empty>
+        //  );
+        //};
+        dispatch(advertsLoadedFailure(error));
+      });
   };
 };
 

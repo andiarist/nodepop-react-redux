@@ -2,7 +2,11 @@ import * as types from './types';
 
 export const initialState = {
   auth: false,
-  adverts: null,
+  adverts: {
+    adverts: null,
+    loading: false,
+    error: null,
+  },
   tags: {
     tags: null,
     loading: false,
@@ -60,8 +64,18 @@ export const tags = (state = initialState.tags, action) => {
 
 export const adverts = (state = initialState.adverts, action) => {
   switch (action.type) {
-    case types.ADVERTS_LOADED:
-      return action.payload.adverts;
+    case types.ADVERTS_LOADED_REQUEST:
+      return { ...state, loading: true };
+    case types.ADVERTS_LOADED_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        adverts: action.payload.adverts,
+      };
+    case types.ADVERTS_LOADED_FAILURE:
+      return { ...state, error: action.payload, loading: false };
+
     case types.ADVERTS_CREATED:
       if (!state) {
         return [action.payload.advert];

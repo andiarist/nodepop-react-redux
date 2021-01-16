@@ -10,13 +10,17 @@ import FiltersForm, { defaultFilters } from './FiltersForm';
 import AdvertCard from './AdvertCard';
 
 import * as actions from '../../../store/actions';
-import { getAdvertsList } from '../../../store/selectors';
+import {
+  getAdvertsList,
+  getAdvertsLoading,
+  getAdvertsError,
+} from '../../../store/selectors';
 
 class AdvertsPage extends React.Component {
   state = {
     //adverts: null,
-    loading: false,
-    error: null,
+    //loading: false,
+    //error: null,
     filters: storage.get('filters') || defaultFilters,
   };
 
@@ -43,13 +47,14 @@ class AdvertsPage extends React.Component {
   };
 
   getAdverts = () => {
-    this.setState({ loading: true, error: null });
-    getAdverts(this.formatFilters())
-      .then(({ result }) => {
-        this.setState({ loading: false });
-        this.props.advertsLoaded(result.rows);
-      })
-      .catch(error => this.setState({ loading: false, error }));
+    this.props.advertsLoaded(this.formatFilters());
+    //this.setState({ loading: true, error: null });
+    //getAdverts(this.formatFilters())
+    //  .then(({ result }) => {
+    //    this.setState({ loading: false });
+    //    this.props.advertsLoaded(result.rows);
+    //  })
+    //  .catch(error => this.setState({ loading: false, error }));
   };
 
   handleSubmit = filters => {
@@ -158,6 +163,8 @@ class AdvertsPage extends React.Component {
 const mapStateToProps = state => {
   return {
     getAdvertsList: getAdvertsList(state),
+    getAdvertsLoading: getAdvertsLoading(state),
+    getAdvertsError: getAdvertsError(state),
   };
 };
 
