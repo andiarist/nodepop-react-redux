@@ -66,26 +66,26 @@ export const tagsLoadedFailure = error => ({
 export const tagsLoadedSuccess = tags => {
   return {
     type: TAGS_LOADED_SUCCESS,
-    payload: {
-      tags,
-    },
+    payload: tags,
   };
 };
 
 export const getTags = () => {
   return function (dispatch, getState, { api }) {
     dispatch(tagsLoadedRequest());
-    const cacheTags = getState().tags.tags;
-
+    const cacheTags = getState().tags;
     if (!cacheTags) {
       api.adverts
         .getTags()
         .then(({ result: tags }) => {
           //console.log('dentro del then de la llamada al api');
-          //console.log(tags);
+          console.log('tags:', tags);
           dispatch(tagsLoadedSuccess(tags));
         })
-        .catch(error => dispatch(tagsLoadedFailure(error)));
+        .catch(error => {
+          console.log('dentro del error de las tags');
+          dispatch(tagsLoadedFailure(error));
+        });
     }
   };
 };
@@ -109,9 +109,7 @@ export const advertsLoadedFailure = error => ({
 export const advertsLoadedSuccess = adverts => {
   return {
     type: ADVERTS_LOADED_SUCCESS,
-    payload: {
-      adverts,
-    },
+    payload: adverts,
   };
 };
 
@@ -142,9 +140,7 @@ export const advertCreatedFailure = error => ({
 export const advertCreatedSuccess = advert => {
   return {
     type: ADVERTS_CREATED_SUCCESS,
-    payload: {
-      advert,
-    },
+    payload: advert,
   };
 };
 
@@ -152,7 +148,7 @@ export const advertCreated = (advert, history) => {
   return function (dispatch, getState, { api }) {
     dispatch(advertCreatedRequest());
 
-    const advertList = getState().adverts.adverts;
+    const advertList = getState().adverts;
     console.log(advertList);
 
     api.adverts

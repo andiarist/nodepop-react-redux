@@ -8,7 +8,7 @@ export const AUTH_LOGOUT = 'auth/LOGOUT';
 export const ADVERTS_LOADED_REQUEST = 'adverts/LOADED_REQUEST';
 export const ADVERTS_LOADED_SUCCESS = 'adverts/LOADED_SUCCESS';
 export const ADVERTS_LOADED_FAILURE = 'adverts/LOADED_FAILURE';
-export const ADVERTS_LOADED = 'adverts/LOADED';
+//export const ADVERTS_LOADED = 'adverts/LOADED';
 
 export const ADVERTS_CREATED_REQUEST = 'adverts/CREATED_REQUEST';
 export const ADVERTS_CREATED_SUCCESS = 'adverts/CREATED_SUCCESS';

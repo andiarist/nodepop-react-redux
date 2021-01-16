@@ -13,12 +13,13 @@ import AdvertCard from './AdvertCard';
 import * as actions from '../../../store/actions';
 import {
   getAdvertsList,
-  getAdvertsLoading,
-  getAdvertsError,
-  getAdvertsInfo,
+  //getAdvertsLoading,
+  //getAdvertsError,
+  //getAdvertsInfo,
+  getUi,
 } from '../../../store/selectors';
 
-function AdvertsPage({ advertsLoaded, getAdvertsInfo }) {
+function AdvertsPage({ advertsLoaded, getAdvertsList, getUi }) {
   const initialFilters = storage.get('filters') || defaultFilters;
   const [filters, setFilters] = useState(initialFilters);
 
@@ -58,7 +59,7 @@ function AdvertsPage({ advertsLoaded, getAdvertsInfo }) {
   );
 
   const renderError = () => {
-    const { error } = getAdvertsInfo;
+    const { error } = getUi;
     return (
       <Empty
         description={<span style={{ color: '#ff4d4f' }}>{`${error}`}</span>}>
@@ -97,8 +98,9 @@ function AdvertsPage({ advertsLoaded, getAdvertsInfo }) {
   };
 
   const renderAdverts = () => {
-    const { loading, error, adverts } = getAdvertsInfo;
-    //const adverts = this.props.getAdvertsList;
+    const { loading, error } = getUi;
+    //const adverts = getAdvertsList;
+    //console.log(getAdvertsList);
 
     if (loading) {
       return renderLoading();
@@ -108,18 +110,18 @@ function AdvertsPage({ advertsLoaded, getAdvertsInfo }) {
       return renderError();
     }
 
-    if (!adverts) {
+    if (!getAdvertsList) {
       return null;
     }
 
-    if (!adverts.length) {
+    if (!getAdvertsList.length) {
       return renderEmpty();
     }
 
     return (
       <List
         grid={{ gutter: 16, column: 3 }}
-        dataSource={adverts}
+        dataSource={getAdvertsList}
         renderItem={renderAdvert}
       />
     );
@@ -142,18 +144,19 @@ function AdvertsPage({ advertsLoaded, getAdvertsInfo }) {
 
 AdvertsPage.propTypes = {
   advertsLoaded: T.func,
-  getAdvertsInfo: T.object,
+  //getAdvertsInfo: T.object,
   getAdvertsList: T.array,
-  getAdvertsLoading: T.bool,
-  getAdvertsError: T.bool,
+  //getAdvertsLoading: T.bool,
+  //getAdvertsError: T.bool,
 };
 
 const mapStateToProps = state => {
   return {
     getAdvertsList: getAdvertsList(state),
-    getAdvertsLoading: getAdvertsLoading(state),
-    getAdvertsError: getAdvertsError(state),
-    getAdvertsInfo: getAdvertsInfo(state),
+    getUi: getUi(state),
+    //getAdvertsLoading: getAdvertsLoading(state),
+    //getAdvertsError: getAdvertsError(state),
+    //getAdvertsInfo: getAdvertsInfo(state),
   };
 };
 

@@ -15,11 +15,13 @@ function TagsSelect({ tags, getTags, ...props }) {
     getTags();
   }, []);
 
+  console.log('tags on tagsselect:', tags);
+
   //const { tagsList: tags } = props;
   return (
     <Select
       allowClear
-      disabled={!tags}
+      //disabled={!tags}
       mode="multiple"
       placeholder="Select tags"
       style={{ width: '100%' }}
