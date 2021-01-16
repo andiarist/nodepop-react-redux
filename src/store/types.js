@@ -9,6 +9,18 @@ export const ADVERTS_LOADED = 'adverts/LOADED';
 export const ADVERTS_CREATED = 'adverts/CREATED';
 
 export const TAGS_LOADED = 'tags/LOADED';
+export const TAGS_LOADED_REQUEST = 'tags/LOADED_REQUEST';
+export const TAGS_LOADED_SUCCESS = 'tags/LOADED_SUCCESS';
+export const TAGS_LOADED_FAILURE = 'tags/LOADED_FAILURE';
 
-export const ADVERT_LOADED = 'advert/LOADED';
+export const ADVERT_LOADED_REQUEST = 'advert/LOADED_REQUEST';
+export const ADVERT_LOADED_SUCCESS = 'advert/LOADED_SUCCESS';
+export const ADVERT_LOADED_FAILURE = 'advert/LOADED_FAILURE ';
+
+export const ADVERT_DELETED_REQUEST = 'advert/DELETED_REQUEST';
+export const ADVERT_DELETED_SUCCESS = 'advert/DELETED_SUCCESS';
+export const ADVERT_DELETED_FAILURE = 'advert/DELETED_FAILURE ';
+
+export const ADVERT_LOADED = 'advert/LOADED ';
+
 export const ADVERT_DELETED = 'advert/DELETED';

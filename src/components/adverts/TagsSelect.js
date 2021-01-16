@@ -3,21 +3,20 @@ import T from 'prop-types';
 import { connect } from 'react-redux';
 import { Select } from 'antd';
 
-import { getTags } from '../../api/adverts';
+//import { getTags } from '../../api/adverts';
 
-import { tagsLoaded } from '../../store/actions';
+import { getTags } from '../../store/actions';
 import { getTagList } from '../../store/selectors';
 
 const { Option } = Select;
 
-function TagsSelect({ tagsLoaded, ...props }) {
+function TagsSelect({ tags, getTags, ...props }) {
   useEffect(() => {
-    //if (!props.tagsList) {
-    getTags().then(({ result: tags }) => tagsLoaded(tags));
-    //}
+    console.log('entra en el if de useeffect');
+    getTags();
   }, []);
 
-  const { tagsList: tags } = props;
+  //const { tagsList: tags } = props;
   return (
     <Select
       allowClear
@@ -38,12 +37,11 @@ TagsSelect.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    tagsList: getTagList(state),
+    tags: getTagList(state),
   };
 };
-const mapDispatchToProps = dispatch => {
-  return {
-    tagsLoaded: tags => dispatch(tagsLoaded(tags)),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  getTags: tags => dispatch(getTags(tags)),
+});
+
 export default connect(mapStateToProps, mapDispatchToProps)(TagsSelect);

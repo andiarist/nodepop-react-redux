@@ -4,7 +4,10 @@ import {
   AUTH_LOGIN_FAILURE,
   AUTH_LOGOUT,
   ADVERTS_LOADED,
-  TAGS_LOADED,
+  //TAGS_LOADED,
+  TAGS_LOADED_REQUEST,
+  TAGS_LOADED_SUCCESS,
+  TAGS_LOADED_FAILURE,
   ADVERTS_CREATED,
   ADVERT_LOADED,
   ADVERT_DELETED,
@@ -45,6 +48,51 @@ export const login = (credentials, location, history) => {
   };
 };
 
+//export const tagsLoaded = tags => {
+//  return {
+//    type: TAGS_LOADED,
+//    payload: {
+//      tags,
+//    },
+//  };
+//};
+
+export const tagsLoadedRequest = () => ({
+  type: TAGS_LOADED_REQUEST,
+});
+
+export const tagsLoadedFailure = error => ({
+  type: TAGS_LOADED_FAILURE,
+  error: true,
+  payload: error,
+});
+
+export const tagsLoadedSuccess = tags => {
+  return {
+    type: TAGS_LOADED_SUCCESS,
+    payload: {
+      tags,
+    },
+  };
+};
+
+export const getTags = () => {
+  return function (dispatch, getState, { api }) {
+    dispatch(tagsLoadedRequest());
+    api.adverts
+      .getTags()
+      .then(({ result: tags }) => {
+        console.log('dentro del then de la llamada al api');
+        console.log(tags);
+        dispatch(tagsLoadedSuccess(tags));
+      })
+      .catch(error => dispatch(tagsLoadedFailure(error)));
+    //} else {
+    //console.log('no entra en el if para sacar los tags');
+    //}
+  };
+};
+
 export const authLogout = () => {
   return {
     type: AUTH_LOGOUT,
@@ -65,15 +113,6 @@ export const advertCreated = advert => {
     type: ADVERTS_CREATED,
     payload: {
       advert,
-    },
-  };
-};
-
-export const tagsLoaded = tags => {
-  return {
-    type: TAGS_LOADED,
-    payload: {
-      tags,
     },
   };
 };

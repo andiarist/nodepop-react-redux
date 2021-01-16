@@ -41,9 +41,6 @@ function LoginPage({ onLogin, location, history, error, loading }) {
 }
 
 LoginPage.propTypes = {
-  //onLoginRequest: T.func,
-  //onLoginSuccess: T.func,
-  //onLoginFailure: T.func,
   onLogin: T.func,
   history: T.shape({ replace: T.func.isRequired }).isRequired,
   location: T.shape({
