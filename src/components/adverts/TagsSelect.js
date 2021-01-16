@@ -12,7 +12,6 @@ const { Option } = Select;
 
 function TagsSelect({ tags, getTags, ...props }) {
   useEffect(() => {
-    console.log('entra en el if de useeffect');
     getTags();
   }, []);
 

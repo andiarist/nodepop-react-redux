@@ -11,7 +11,9 @@ import {
   TAGS_LOADED_REQUEST,
   TAGS_LOADED_SUCCESS,
   TAGS_LOADED_FAILURE,
-  ADVERTS_CREATED,
+  ADVERTS_CREATED_REQUEST,
+  ADVERTS_CREATED_SUCCESS,
+  ADVERTS_CREATED_FAILURE,
   ADVERT_LOADED,
   ADVERT_DELETED,
 } from './types';
@@ -116,41 +118,52 @@ export const advertsLoadedSuccess = adverts => {
 export const advertsLoaded = filters => {
   return function (dispatch, getState, { api }) {
     dispatch(advertsLoadedRequest());
-    //const renderLoading = () => (
-    //  <div style={{ display: 'flex', justifyContent: 'center' }}>
-    //    <Spin size="large" />
-    //  </div>
-    //);
     api.adverts
       .getAdverts(filters)
       .then(({ result }) => {
-        //console.log('dentro del then de la llamada al api');
-        //console.log(tags);
         dispatch(advertsLoadedSuccess(result.rows));
       })
       .catch(error => {
-        //const renderError = () => {
-        //  const { error } = this.state;
-        //  return (
-        //    <Empty
-        //      description={<span style={{ color: '#ff4d4f' }}>{`${error}`}</span>}>
-        //      <Button type="primary" danger onClick={this.getAdverts}>
-        //        Reload
-        //      </Button>
-        //    </Empty>
-        //  );
-        //};
         dispatch(advertsLoadedFailure(error));
       });
   };
 };
 
-export const advertCreated = advert => {
+export const advertCreatedRequest = () => ({
+  type: ADVERTS_CREATED_REQUEST,
+});
+
+export const advertCreatedFailure = error => ({
+  type: ADVERTS_CREATED_FAILURE,
+  error: true,
+  payload: error,
+});
+
+export const advertCreatedSuccess = advert => {
   return {
-    type: ADVERTS_CREATED,
+    type: ADVERTS_CREATED_SUCCESS,
     payload: {
       advert,
     },
+  };
+};
+
+export const advertCreated = (advert, history) => {
+  return function (dispatch, getState, { api }) {
+    dispatch(advertCreatedRequest());
+
+    const advertList = getState().adverts.adverts;
+    console.log(advertList);
+
+    api.adverts
+      .createAdvert(advert)
+      .then(({ result: advert }) => {
+        dispatch(advertCreatedSuccess(advert));
+        history.push(`/adverts/${advert._id}`);
+      })
+      .catch(error => {
+        dispatch(advertCreatedFailure(error));
+      });
   };
 };
 

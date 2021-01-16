@@ -30,7 +30,7 @@ function AdvertPage({ advertDetail, advertLoaded, ...props }) {
   const getAdvertById = async () => {
     try {
       const { result } = await getAdvert(getAdvertId());
-      console.log('result:', result);
+
       if (!result) {
         const error = { message: 'Not found' };
         throw error;
@@ -49,7 +49,7 @@ function AdvertPage({ advertDetail, advertLoaded, ...props }) {
     if (!advert) {
       return null;
     }
-    console.log('advert: ', advert);
+
     const { name, price, tags, sale, photoUrl } = advert;
 
     return (

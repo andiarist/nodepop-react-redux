@@ -77,10 +77,15 @@ export const adverts = (state = initialState.adverts, action) => {
       return { ...state, error: action.payload, loading: false };
 
     case types.ADVERTS_CREATED:
-      if (!state) {
-        return [action.payload.advert];
-      }
-      return [...state, action.payload.advert];
+      return {
+        ...state,
+        //adverts: [...state.adverts, action.payload.advert],
+        adverts: state.adverts.concat(action.payload.advert),
+      };
+    //if (!state.adverts) {
+    //  return [action.payload.adverts];
+    //}
+    //return [...state, action.payload.adverts];
     default:
       return state;
   }

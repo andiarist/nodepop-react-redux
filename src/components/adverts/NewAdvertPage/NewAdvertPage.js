@@ -13,14 +13,9 @@ function NewAdvertPage({ history, onCreateAdvert }) {
   const [error, setError] = useState(null);
 
   const handleSubmit = advert => {
-    //const { history, onCreateAdvert } = props;
     resetError();
-    createAdvert(advert)
-      .then(({ result: advert }) => {
-        onCreateAdvert(advert);
-        history.push(`/adverts/${advert._id}`);
-      })
-      .catch(error => setError({ error }));
+
+    onCreateAdvert(advert, history);
   };
 
   const resetError = () => setError(null);
@@ -47,10 +42,8 @@ NewAdvertPage.propTypes = {
   onCreateAdvert: T.func,
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onCreateAdvert: advert => dispatch(advertCreated(advert)),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onCreateAdvert: (advert, history) => dispatch(advertCreated(advert, history)),
+});
 
 export default connect(null, mapDispatchToProps)(NewAdvertPage);
