@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import T from 'prop-types';
 import { Redirect } from 'react-router-dom';
@@ -16,36 +16,32 @@ import * as actions from '../../../store/actions';
 
 const { Title } = Typography;
 
-class AdvertPage extends React.Component {
-  state = {
-    advert: null,
-    error: null,
+function AdvertPage({ advertDetail, advertLoaded, ...props }) {
+  const [advert, setAdvert] = useState(null);
+  const [error, setError] = useState(null);
+
+  const getAdvertId = () => props.match.params.id;
+
+  const handleDeleteClick = () => {
+    const { history } = props;
+    deleteAdvert(getAdvertId()).then(() => history.push('/'));
   };
 
-  getAdvertId = () => this.props.match.params.id;
-
-  handleDeleteClick = () => {
-    const { history } = this.props;
-    deleteAdvert(this.getAdvertId()).then(() => history.push('/'));
-  };
-
-  getAdvert = async () => {
+  const getAdvertById = async () => {
     try {
-      const { result } = await getAdvert(this.getAdvertId());
+      const { result } = await getAdvert(getAdvertId());
       console.log('result:', result);
       if (!result) {
         const error = { message: 'Not found' };
         throw error;
       }
-      this.setState({ advert: result });
+      setAdvert(result);
     } catch (error) {
-      this.setState({ error });
+      setError(error);
     }
   };
 
-  renderAdvert = () => {
-    const { advert, error } = this.state;
-
+  const renderAdvert = () => {
     if (error) {
       return <Redirect to="/404" />;
     }
@@ -53,7 +49,7 @@ class AdvertPage extends React.Component {
     if (!advert) {
       return null;
     }
-
+    console.log('advert: ', advert);
     const { name, price, tags, sale, photoUrl } = advert;
 
     return (
@@ -91,7 +87,7 @@ class AdvertPage extends React.Component {
               danger: true,
             },
           }}
-          onConfirm={this.handleDeleteClick}
+          onConfirm={handleDeleteClick}
           style={{ marginTop: 20 }}
           block>
           Delete
@@ -100,18 +96,16 @@ class AdvertPage extends React.Component {
     );
   };
 
-  componentDidMount() {
-    this.getAdvert();
-  }
+  useEffect(() => {
+    getAdvertById();
+  }, []);
 
-  render() {
-    return (
-      <Layout title="Advert detail">
-        <Divider>Detail of your advert</Divider>
-        {this.renderAdvert()}
-      </Layout>
-    );
-  }
+  return (
+    <Layout title="Advert detail">
+      <Divider>Detail of your advert</Divider>
+      {renderAdvert()}
+    </Layout>
+  );
 }
 
 AdvertPage.propTypes = {
