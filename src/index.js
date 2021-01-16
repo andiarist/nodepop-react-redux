@@ -7,7 +7,7 @@ import './index.css';
 import App, { Root } from './components/App';
 
 import { configureStore } from './store';
-import { initialState } from './store/reducers';
+//import { initialState } from './store/reducers';
 
 // Read token from storage
 const { token } = storage.get('auth') || { token: null };
@@ -18,8 +18,8 @@ configureClient(token);
 console.log('token:', token);
 
 const store = token
-  ? configureStore({ ...initialState, auth: true })
-  : configureStore({ ...initialState, auth: false });
+  ? configureStore({ auth: true })
+  : configureStore({ auth: false });
 
 console.log('store.getState().auth:', store.getState().auth);
 

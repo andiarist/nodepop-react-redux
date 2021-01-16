@@ -16,9 +16,9 @@ import { getUi } from '../../../store/selectors';
 
 const { Title } = Typography;
 
-function LoginPage({ login, location, history, error, loading }) {
+function LoginPage({ onLogin, location, history, error, loading }) {
   const handleSubmit = credentials => {
-    login(credentials, location, history);
+    onLogin(credentials, location, history);
   };
 
   return (
@@ -44,7 +44,7 @@ LoginPage.propTypes = {
   //onLoginRequest: T.func,
   //onLoginSuccess: T.func,
   //onLoginFailure: T.func,
-  login: T.func,
+  onLogin: T.func,
   history: T.shape({ replace: T.func.isRequired }).isRequired,
   location: T.shape({
     state: T.shape({ from: T.shape({ pathname: T.string }) }),
@@ -53,12 +53,17 @@ LoginPage.propTypes = {
 
 const mapStateToProps = state => getUi(state);
 
-const mapDispatchToProps = {
-  //onLoginRequest: authLoginRequest,
-  //onLoginSuccess: authLoginSuccess,
-  //onLoginFailure: authLoginFailure,
-  login,
-};
+//const mapDispatchToProps = {
+//  //onLoginRequest: authLoginRequest,
+//  //onLoginSuccess: authLoginSuccess,
+//  //onLoginFailure: authLoginFailure,
+//  login,
+//};
+
+const mapDispatchToProps = dispatch => ({
+  onLogin: (credentials, location, history) =>
+    dispatch(login(credentials, location, history)),
+});
 
 //export default connect(getUi, login)(LoginPage);
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

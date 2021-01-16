@@ -10,7 +10,7 @@ import {
   ADVERT_DELETED,
 } from './types';
 
-import * as auth from '../api/auth';
+//import * as auth from '../api/auth';
 
 export const authLoginRequest = () => ({
   type: AUTH_LOGIN_REQUEST,
@@ -30,9 +30,9 @@ export const authLoginSuccess = isLogged => {
 };
 
 export const login = (credentials, location, history) => {
-  return function (dispatch, getState) {
+  return function (dispatch, getState, { api }) {
     dispatch(authLoginRequest());
-    auth
+    api.auth
       .login(credentials)
       .then(() => {
         dispatch(authLoginSuccess(true));
