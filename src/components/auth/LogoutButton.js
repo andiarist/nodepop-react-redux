@@ -11,7 +11,6 @@ import { getIsLogged } from '../../store/selectors';
 
 class LogoutButton extends React.Component {
   handleLogout = () => {
-    //const { onLogout } = this.props;
     logout().then(this.props.authLogout);
   };
 
