@@ -79,17 +79,18 @@ export const tagsLoadedSuccess = tags => {
 export const getTags = () => {
   return function (dispatch, getState, { api }) {
     dispatch(tagsLoadedRequest());
-    api.adverts
-      .getTags()
-      .then(({ result: tags }) => {
-        console.log('dentro del then de la llamada al api');
-        console.log(tags);
-        dispatch(tagsLoadedSuccess(tags));
-      })
-      .catch(error => dispatch(tagsLoadedFailure(error)));
-    //} else {
-    //console.log('no entra en el if para sacar los tags');
-    //}
+    const cacheTags = getState().tags.tags;
+
+    if (!cacheTags) {
+      api.adverts
+        .getTags()
+        .then(({ result: tags }) => {
+          //console.log('dentro del then de la llamada al api');
+          //console.log(tags);
+          dispatch(tagsLoadedSuccess(tags));
+        })
+        .catch(error => dispatch(tagsLoadedFailure(error)));
+    }
   };
 };
 
