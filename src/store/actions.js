@@ -1,5 +1,7 @@
 import {
-  AUTH_LOGIN,
+  AUTH_LOGIN_REQUEST,
+  AUTH_LOGIN_SUCCESS,
+  AUTH_LOGIN_FAILURE,
   AUTH_LOGOUT,
   ADVERTS_LOADED,
   TAGS_LOADED,
@@ -8,12 +10,38 @@ import {
   ADVERT_DELETED,
 } from './types';
 
-export const authLogin = isLogged => {
+import * as auth from '../api/auth';
+
+export const authLoginRequest = () => ({
+  type: AUTH_LOGIN_REQUEST,
+});
+
+export const authLoginFailure = error => ({
+  type: AUTH_LOGIN_FAILURE,
+  error: true,
+  payload: error,
+});
+
+export const authLoginSuccess = isLogged => {
   return {
-    type: AUTH_LOGIN,
-    payload: {
-      isLogged,
-    },
+    type: AUTH_LOGIN_SUCCESS,
+    payload: isLogged,
+  };
+};
+
+export const login = (credentials, location, history) => {
+  return function (dispatch, getState) {
+    dispatch(authLoginRequest());
+    auth
+      .login(credentials)
+      .then(() => {
+        dispatch(authLoginSuccess(true));
+        const { from } = location.state || { from: { pathname: '/' } };
+        history.replace(from);
+      })
+      .catch(error => {
+        dispatch(authLoginFailure(error));
+      });
   };
 };
 
