@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import T from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { Divider, Image, Typography, Statistic, Row, Col } from 'antd';
@@ -10,6 +11,8 @@ import { DeleteOutlined } from '@ant-design/icons';
 import placeholder from '../../../assets/photo-placeholder.png';
 import Tags from '../Tags';
 import { formatter } from '../../../utils/numbers';
+
+import * as actions from '../../../store/actions';
 
 const { Title } = Typography;
 
@@ -29,6 +32,7 @@ class AdvertPage extends React.Component {
   getAdvert = async () => {
     try {
       const { result } = await getAdvert(this.getAdvertId());
+      console.log('result:', result);
       if (!result) {
         const error = { message: 'Not found' };
         throw error;
@@ -89,8 +93,7 @@ class AdvertPage extends React.Component {
           }}
           onConfirm={this.handleDeleteClick}
           style={{ marginTop: 20 }}
-          block
-        >
+          block>
           Delete
         </ConfirmationButton>
       </Row>
@@ -116,4 +119,16 @@ AdvertPage.propTypes = {
     .isRequired,
 };
 
-export default AdvertPage;
+const mapStateToProps = state => {
+  return {
+    advertDetail: state.advert,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    advertLoaded: advertId => dispatch(actions.advertLoaded(advertId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdvertPage);

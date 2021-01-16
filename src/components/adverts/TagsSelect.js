@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import T from 'prop-types';
 import { connect } from 'react-redux';
 import { Select } from 'antd';
 
@@ -29,6 +30,11 @@ function TagsSelect({ tagsLoaded, ...props }) {
     </Select>
   );
 }
+
+TagsSelect.propTypes = {
+  tagsList: T.array,
+  tagsLoaded: T.func,
+};
 
 const mapStateToProps = state => {
   return {

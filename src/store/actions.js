@@ -50,11 +50,11 @@ export const tagsLoaded = tags => {
   };
 };
 
-export const advertLoaded = (adverts, id) => {
+export const advertLoaded = advertId => {
   return {
     type: ADVERT_LOADED,
     payload: {
-      adverts,
+      advertId,
     },
   };
 };

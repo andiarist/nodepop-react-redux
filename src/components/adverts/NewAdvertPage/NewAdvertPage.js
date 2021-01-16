@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import T from 'prop-types';
 import { Alert, Divider } from 'antd';
 
@@ -6,43 +7,50 @@ import { createAdvert } from '../../../api/adverts';
 import Layout from '../../layout';
 import NewAdvertForm from './NewAdvertForm';
 
-class NewAdvertPage extends React.Component {
-  state = {
-    error: null,
-  };
+import { advertCreated } from '../../../store/actions';
 
-  handleSubmit = advert => {
-    const { history } = this.props;
-    this.resetError();
+function NewAdvertPage({ history, onCreateAdvert }) {
+  const [error, setError] = useState(null);
+
+  const handleSubmit = advert => {
+    //const { history, onCreateAdvert } = props;
+    resetError();
     createAdvert(advert)
-      .then(({ result: advert }) => history.push(`/adverts/${advert._id}`))
-      .catch(error => this.setState({ error }));
+      .then(({ result: advert }) => {
+        onCreateAdvert(advert);
+        history.push(`/adverts/${advert._id}`);
+      })
+      .catch(error => setError({ error }));
   };
 
-  resetError = () => this.setState({ error: null });
+  const resetError = () => setError(null);
 
-  render() {
-    const { error } = this.state;
-    return (
-      <Layout title="New advert">
-        <Divider>Create an advert</Divider>
-        <NewAdvertForm onSubmit={this.handleSubmit} />
-        {error && (
-          <Alert
-            afterClose={this.resetError}
-            closable
-            message={error}
-            showIcon
-            type="error"
-          />
-        )}
-      </Layout>
-    );
-  }
+  return (
+    <Layout title="New advert">
+      <Divider>Create an advert</Divider>
+      <NewAdvertForm onSubmit={handleSubmit} />
+      {error && (
+        <Alert
+          afterClose={resetError}
+          closable
+          message={error}
+          showIcon
+          type="error"
+        />
+      )}
+    </Layout>
+  );
 }
 
 NewAdvertPage.propTypes = {
   history: T.shape({ push: T.func.isRequired }).isRequired,
+  onCreateAdvert: T.func,
 };
 
-export default NewAdvertPage;
+const mapDispatchToProps = dispatch => {
+  return {
+    onCreateAdvert: advert => dispatch(advertCreated(advert)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(NewAdvertPage);
