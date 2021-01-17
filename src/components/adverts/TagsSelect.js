@@ -21,7 +21,7 @@ function TagsSelect({ tags, getTags, ...props }) {
   return (
     <Select
       allowClear
-      //disabled={!tags}
+      disabled={!tags}
       mode="multiple"
       placeholder="Select tags"
       style={{ width: '100%' }}

@@ -11,14 +11,23 @@ import {
   TAGS_LOADED_REQUEST,
   TAGS_LOADED_SUCCESS,
   TAGS_LOADED_FAILURE,
+  //
   ADVERTS_CREATED_REQUEST,
   ADVERTS_CREATED_SUCCESS,
   ADVERTS_CREATED_FAILURE,
-  ADVERT_LOADED,
+  //ADVERT_LOADED,
+  ADVERT_LOADED_REQUEST,
+  ADVERT_LOADED_SUCCESS,
+  ADVERT_LOADED_FAILURE,
   ADVERT_DELETED,
+  ADVERT_DELETED_REQUEST,
+  ADVERT_DELETED_SUCCESS,
+  ADVERT_DELETED_FAILURE,
 } from './types';
 
 //import * as auth from '../api/auth';
+
+import { getTagList, getAdvertsList } from './selectors';
 
 export const authLoginRequest = () => ({
   type: AUTH_LOGIN_REQUEST,
@@ -73,13 +82,14 @@ export const tagsLoadedSuccess = tags => {
 export const getTags = () => {
   return function (dispatch, getState, { api }) {
     dispatch(tagsLoadedRequest());
-    const cacheTags = getState().tags;
+    const state = getState();
+    const cacheTags = getTagList(state);
     if (!cacheTags) {
       api.adverts
         .getTags()
         .then(({ result: tags }) => {
           //console.log('dentro del then de la llamada al api');
-          console.log('tags:', tags);
+          //console.log('tags:', tags);
           dispatch(tagsLoadedSuccess(tags));
         })
         .catch(error => {
@@ -148,7 +158,8 @@ export const advertCreated = (advert, history) => {
   return function (dispatch, getState, { api }) {
     dispatch(advertCreatedRequest());
 
-    const advertList = getState().adverts;
+    const state = getState();
+    const advertList = getAdvertsList(state);
     console.log(advertList);
 
     api.adverts
@@ -163,12 +174,38 @@ export const advertCreated = (advert, history) => {
   };
 };
 
-export const advertLoaded = advertId => {
+export const advertLoadedRequest = () => ({
+  type: ADVERT_LOADED_REQUEST,
+});
+
+export const advertLoadedFailure = error => ({
+  type: ADVERT_LOADED_FAILURE,
+  error: true,
+  payload: error,
+});
+
+export const advertLoadedSuccess = advertId => {
   return {
-    type: ADVERT_LOADED,
-    payload: {
-      advertId,
-    },
+    type: ADVERT_LOADED_SUCCESS,
+    payload: advertId,
+  };
+};
+
+export const advertLoaded = advertId => {
+  return async function (dispatch, getState, { api }) {
+    dispatch(advertLoadedRequest());
+
+    try {
+      const { result } = await api.adverts.getAdvert(advertId);
+
+      if (!result) {
+        const error = { message: 'Not found' };
+        throw error;
+      }
+      dispatch(advertLoadedSuccess(result));
+    } catch (error) {
+      dispatch(advertLoadedFailure(error));
+    }
   };
 };
 
