@@ -42,11 +42,6 @@ LogoutButton.propTypes = {
   authLogout: T.func.isRequired,
 };
 
-//const ConnectedToAuthLogoutButton = props => (
-//  <AuthContextConsumer>
-//    {({ onLogout }) => <LogoutButton onLogout={onLogout} {...props} />}
-//  </AuthContextConsumer>
-//);
 const mapStateToProps = state => {
   return {
     isLogged: getIsLogged(state),
@@ -59,5 +54,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-//export default connect(mapDispatchToProps)(ConnectedToAuthLogoutButton);
 export default connect(mapStateToProps, mapDispatchToProps)(LogoutButton);

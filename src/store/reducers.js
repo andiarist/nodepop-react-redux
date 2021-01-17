@@ -31,6 +31,18 @@ export const ui = (state = initialState.ui, action) => {
     case types.AUTH_LOGIN_SUCCESS:
       return { ...state, error: null, loading: false };
 
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+
     case types.ADVERTS_LOADED_REQUEST:
       return { ...state, loading: true };
     case types.ADVERTS_LOADED_SUCCESS:

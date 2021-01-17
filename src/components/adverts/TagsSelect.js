@@ -3,8 +3,6 @@ import T from 'prop-types';
 import { connect } from 'react-redux';
 import { Select } from 'antd';
 
-//import { getTags } from '../../api/adverts';
-
 import { getTags } from '../../store/actions';
 import { getTagList } from '../../store/selectors';
 
@@ -15,7 +13,7 @@ function TagsSelect({ tags, getTags, ...props }) {
     getTags();
   }, []);
 
-  console.log('tags on tagsselect:', tags);
+  //console.log('tags on tagsselect:', tags);
 
   //const { tagsList: tags } = props;
   return (

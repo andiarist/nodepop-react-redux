@@ -5,19 +5,13 @@ import { connect } from 'react-redux';
 import { Empty, Button, Spin, List, Divider } from 'antd';
 
 import storage from '../../../utils/storage';
-//import { getAdverts } from '../../../api/adverts';
+
 import Layout from '../../layout';
 import FiltersForm, { defaultFilters } from './FiltersForm';
 import AdvertCard from './AdvertCard';
 
 import * as actions from '../../../store/actions';
-import {
-  getAdvertsList,
-  //getAdvertsLoading,
-  //getAdvertsError,
-  //getAdvertsInfo,
-  getUi,
-} from '../../../store/selectors';
+import { getAdvertsList, getUi } from '../../../store/selectors';
 
 function AdvertsPage({ advertsLoaded, getAdvertsList, getUi }) {
   const initialFilters = storage.get('filters') || defaultFilters;
@@ -43,15 +37,6 @@ function AdvertsPage({ advertsLoaded, getAdvertsList, getUi }) {
     return filtersQuery;
   };
 
-  const getAdverts = () => {
-    advertsLoaded(formatFilters());
-  };
-
-  const handleSubmit = filters => {
-    storage.set('filters', filters);
-    setFilters(filters);
-  };
-
   const renderLoading = () => (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Spin size="large" />
@@ -71,7 +56,6 @@ function AdvertsPage({ advertsLoaded, getAdvertsList, getUi }) {
   };
 
   const renderEmpty = () => {
-    //const { filters } = this.state;
     const isFiltered =
       JSON.stringify(filters) !== JSON.stringify(defaultFilters);
     return (
@@ -127,9 +111,18 @@ function AdvertsPage({ advertsLoaded, getAdvertsList, getUi }) {
     );
   };
 
+  const getAdverts = () => {
+    advertsLoaded(formatFilters());
+  };
+
+  const handleSubmit = filters => {
+    storage.set('filters', filters);
+    setFilters(filters);
+  };
+
   useEffect(() => {
     getAdverts();
-    console.log('filters:', filters);
+    //console.log('filters:', filters);
   }, [filters]);
 
   return (

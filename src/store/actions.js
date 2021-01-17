@@ -11,7 +11,7 @@ import {
   TAGS_LOADED_REQUEST,
   TAGS_LOADED_SUCCESS,
   TAGS_LOADED_FAILURE,
-  //
+  //ADVERTS_CREATED
   ADVERTS_CREATED_REQUEST,
   ADVERTS_CREATED_SUCCESS,
   ADVERTS_CREATED_FAILURE,
@@ -88,12 +88,9 @@ export const getTags = () => {
       api.adverts
         .getTags()
         .then(({ result: tags }) => {
-          //console.log('dentro del then de la llamada al api');
-          //console.log('tags:', tags);
           dispatch(tagsLoadedSuccess(tags));
         })
         .catch(error => {
-          console.log('dentro del error de las tags');
           dispatch(tagsLoadedFailure(error));
         });
     }
@@ -160,7 +157,7 @@ export const advertCreated = (advert, history) => {
 
     const state = getState();
     const advertList = getAdvertsList(state);
-    console.log(advertList);
+    //console.log(advertList);
 
     api.adverts
       .createAdvert(advert)

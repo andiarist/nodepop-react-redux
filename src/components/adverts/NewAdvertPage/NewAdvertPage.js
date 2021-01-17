@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import T from 'prop-types';
 import { Alert, Divider } from 'antd';
 
-import { createAdvert } from '../../../api/adverts';
+//import { createAdvert } from '../../../api/adverts';
 import Layout from '../../layout';
 import NewAdvertForm from './NewAdvertForm';
 

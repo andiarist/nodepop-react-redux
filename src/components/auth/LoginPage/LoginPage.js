@@ -50,13 +50,6 @@ LoginPage.propTypes = {
 
 const mapStateToProps = state => getUi(state);
 
-//const mapDispatchToProps = {
-//  //onLoginRequest: authLoginRequest,
-//  //onLoginSuccess: authLoginSuccess,
-//  //onLoginFailure: authLoginFailure,
-//  login,
-//};
-
 const mapDispatchToProps = dispatch => ({
   onLogin: (credentials, location, history) =>
     dispatch(login(credentials, location, history)),
