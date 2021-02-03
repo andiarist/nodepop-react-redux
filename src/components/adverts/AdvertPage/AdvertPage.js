@@ -4,7 +4,6 @@ import T from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { Divider, Image, Typography, Statistic, Row, Col } from 'antd';
 
-import { getAdvert, deleteAdvert } from '../../../api/adverts';
 import Layout from '../../layout';
 import { ConfirmationButton } from '../../shared';
 import { DeleteOutlined } from '@ant-design/icons';
@@ -13,32 +12,23 @@ import Tags from '../Tags';
 import { formatter } from '../../../utils/numbers';
 
 import * as actions from '../../../store/actions';
+import { getUi, getAdvertDetail } from '../../../store/selectors';
 
 const { Title } = Typography;
 
-function AdvertPage({ advertDetail, advertLoaded, ...props }) {
-  const [advert, setAdvert] = useState(null);
+function AdvertPage({ advertDetail, advertLoaded, advertDeleted, ...props }) {
   const [error, setError] = useState(null);
 
-  const getAdvertId = () => props.match.params.id;
+  const getAdvertId = props.match.params.id;
 
   const handleDeleteClick = () => {
     const { history } = props;
-    deleteAdvert(getAdvertId()).then(() => history.push('/'));
+    //deleteAdvert(getAdvertId).then(() => history.push('/'));
+    advertDeleted(getAdvertId, history);
   };
 
   const getAdvertById = async () => {
-    try {
-      const { result } = await getAdvert(getAdvertId());
-
-      if (!result) {
-        const error = { message: 'Not found' };
-        throw error;
-      }
-      setAdvert(result);
-    } catch (error) {
-      setError(error);
-    }
+    advertLoaded(getAdvertId);
   };
 
   const renderAdvert = () => {
@@ -46,11 +36,11 @@ function AdvertPage({ advertDetail, advertLoaded, ...props }) {
       return <Redirect to="/404" />;
     }
 
-    if (!advert) {
+    if (!advertDetail) {
       return null;
     }
 
-    const { name, price, tags, sale, photoUrl } = advert;
+    const { name, price, tags, sale, photoUrl } = advertDetail;
 
     return (
       <Row>
@@ -111,17 +101,21 @@ function AdvertPage({ advertDetail, advertLoaded, ...props }) {
 AdvertPage.propTypes = {
   match: T.shape({ params: T.shape({ id: T.string.isRequired }).isRequired })
     .isRequired,
+  history: T.object,
 };
 
 const mapStateToProps = state => {
   return {
-    advertDetail: state.advert,
+    advertDetail: getAdvertDetail(state),
+    getUi: getUi(state),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     advertLoaded: advertId => dispatch(actions.advertLoaded(advertId)),
+    advertDeleted: (advertId, history) =>
+      dispatch(actions.advertDeleted(advertId, history)),
   };
 };
 

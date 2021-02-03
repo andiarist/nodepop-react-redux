@@ -2,7 +2,10 @@ import {
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_FAILURE,
-  AUTH_LOGOUT,
+  //AUTH_LOGOUT,
+  AUTH_LOGOUT_REQUEST,
+  AUTH_LOGOUT_SUCCESS,
+  AUTH_LOGOUT_FAILURE,
   //ADVERTS_LOADED,
   ADVERTS_LOADED_REQUEST,
   ADVERTS_LOADED_SUCCESS,
@@ -19,15 +22,15 @@ import {
   ADVERT_LOADED_REQUEST,
   ADVERT_LOADED_SUCCESS,
   ADVERT_LOADED_FAILURE,
-  ADVERT_DELETED,
-  ADVERT_DELETED_REQUEST,
-  ADVERT_DELETED_SUCCESS,
-  ADVERT_DELETED_FAILURE,
+  //ADVERTS_DELETED,
+  ADVERTS_DELETED_REQUEST,
+  ADVERTS_DELETED_SUCCESS,
+  ADVERTS_DELETED_FAILURE,
 } from './types';
 
 //import * as auth from '../api/auth';
 
-import { getTagList, getAdvertsList } from './selectors';
+import { getTagList, getAdvertsList, getIsLogged } from './selectors';
 
 export const authLoginRequest = () => ({
   type: AUTH_LOGIN_REQUEST,
@@ -59,6 +62,35 @@ export const login = (credentials, location, history) => {
       .catch(error => {
         dispatch(authLoginFailure(error));
       });
+  };
+};
+
+export const authLogoutRequest = () => ({
+  type: AUTH_LOGOUT_REQUEST,
+});
+
+export const authLogoutFailure = error => ({
+  type: AUTH_LOGOUT_FAILURE,
+  error: true,
+  payload: error,
+});
+
+export const authLogoutSuccess = () => {
+  return {
+    type: AUTH_LOGOUT_SUCCESS,
+    payload: false,
+  };
+};
+
+export const logout = () => {
+  return function (dispatch, getState, { api }) {
+    dispatch(authLogoutRequest());
+    api.auth
+      .logout()
+      .then(() => {
+        dispatch(authLogoutSuccess());
+      })
+      .catch(error => dispatch(authLogoutFailure()));
   };
 };
 
@@ -94,12 +126,6 @@ export const getTags = () => {
           dispatch(tagsLoadedFailure(error));
         });
     }
-  };
-};
-
-export const authLogout = () => {
-  return {
-    type: AUTH_LOGOUT,
   };
 };
 
@@ -181,10 +207,10 @@ export const advertLoadedFailure = error => ({
   payload: error,
 });
 
-export const advertLoadedSuccess = advertId => {
+export const advertLoadedSuccess = advert => {
   return {
     type: ADVERT_LOADED_SUCCESS,
-    payload: advertId,
+    payload: advert,
   };
 };
 
@@ -206,11 +232,32 @@ export const advertLoaded = advertId => {
   };
 };
 
-export const advertDeleted = (adverts, id) => {
+export const advertsDeletedRequest = () => ({
+  type: ADVERTS_DELETED_REQUEST,
+});
+
+export const advertsDeletedFailure = error => ({
+  type: ADVERTS_DELETED_FAILURE,
+  error: true,
+  payload: error,
+});
+
+export const advertsDeletedSuccess = advertId => {
   return {
-    type: ADVERT_DELETED,
-    payload: {
-      adverts,
-    },
+    type: ADVERTS_DELETED_SUCCESS,
+    payload: advertId,
+  };
+};
+
+export const advertDeleted = (advertId, history) => {
+  return async function (dispatch, getState, { api }) {
+    dispatch(advertsDeletedRequest());
+    try {
+      await api.adverts.deleteAdvert(advertId);
+      dispatch(advertsDeletedSuccess(advertId));
+      history.push('/');
+    } catch (error) {
+      dispatch(advertsDeletedFailure(error.message));
+    }
   };
 };

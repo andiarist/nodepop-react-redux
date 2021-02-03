@@ -40,7 +40,7 @@ const mapStateToProps = state => {
   };
 };
 const mapDispatchToProps = dispatch => ({
-  getTags: tags => dispatch(getTags(tags)),
+  getTags: tags => dispatch(getTags()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsSelect);

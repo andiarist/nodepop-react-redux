@@ -147,9 +147,6 @@ const mapStateToProps = state => {
   return {
     getAdvertsList: getAdvertsList(state),
     getUi: getUi(state),
-    //getAdvertsLoading: getAdvertsLoading(state),
-    //getAdvertsError: getAdvertsError(state),
-    //getAdvertsInfo: getAdvertsInfo(state),
   };
 };
 

@@ -3,14 +3,8 @@ import { connect } from 'react-redux';
 import T from 'prop-types';
 import { Alert, Col, Row, Typography } from 'antd';
 
-//import { login } from '../../../api/auth';
 import LoginForm from './LoginForm';
 
-//import {
-//  authLoginRequest,
-//  authLoginSuccess,
-//  authLoginFailure,
-//} from '../../../store/actions';
 import { login } from '../../../store/actions';
 import { getUi } from '../../../store/selectors';
 
