@@ -12,9 +12,16 @@ function LoginForm({ onSubmit }) {
       <Form
         initialValues={{ email: '', password: '', remember: false }}
         onSubmit={onSubmit}>
-        <Input type="email" name="email" />
-        <Input type="password" name="password" />
-        <Input type="checkbox" name="remember" />
+        <p>
+          <Input type="email" name="email" />
+        </p>
+        <p>
+          <Input type="password" name="password" />
+        </p>
+        <p>
+          <Input type="checkbox" name="remember" /> Remember
+        </p>
+
         <button type="submit" className="button-submit">
           Log in
         </button>

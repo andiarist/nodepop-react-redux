@@ -14,9 +14,7 @@ function Input({ type, name, ...props }) {
   };
 
   return (
-    <p>
-      <input type={type} name={name} onChange={handleChange} />
-    </p>
+    <input type={type} name={name} onChange={handleChange} placeholder={name} />
   );
 }
 Input.propTypes = {

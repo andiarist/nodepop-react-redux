@@ -2,27 +2,21 @@ import {
   AUTH_LOGIN_REQUEST,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_FAILURE,
-  //AUTH_LOGOUT,
   AUTH_LOGOUT_REQUEST,
   AUTH_LOGOUT_SUCCESS,
   AUTH_LOGOUT_FAILURE,
-  //ADVERTS_LOADED,
   ADVERTS_LOADED_REQUEST,
   ADVERTS_LOADED_SUCCESS,
   ADVERTS_LOADED_FAILURE,
-  //TAGS_LOADED,
   TAGS_LOADED_REQUEST,
   TAGS_LOADED_SUCCESS,
   TAGS_LOADED_FAILURE,
-  //ADVERTS_CREATED
   ADVERTS_CREATED_REQUEST,
   ADVERTS_CREATED_SUCCESS,
   ADVERTS_CREATED_FAILURE,
-  //ADVERT_LOADED,
   ADVERT_LOADED_REQUEST,
   ADVERT_LOADED_SUCCESS,
   ADVERT_LOADED_FAILURE,
-  //ADVERTS_DELETED,
   ADVERTS_DELETED_REQUEST,
   ADVERTS_DELETED_SUCCESS,
   ADVERTS_DELETED_FAILURE,
@@ -90,7 +84,7 @@ export const logout = () => {
       .then(() => {
         dispatch(authLogoutSuccess());
       })
-      .catch(error => dispatch(authLogoutFailure()));
+      .catch(error => dispatch(authLogoutFailure(error)));
   };
 };
 
@@ -183,7 +177,6 @@ export const advertCreated = (advert, history) => {
 
     const state = getState();
     const advertList = getAdvertsList(state);
-    //console.log(advertList);
 
     api.adverts
       .createAdvert(advert)

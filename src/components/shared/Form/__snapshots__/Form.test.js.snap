@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing <Form /> should show <Form /> properly 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <ContextProvider
+    value={
+      Object {
+        "setValues": [Function],
+        "values": Object {},
+      }
+    }
+  >
+    children
+  </ContextProvider>
+</form>
+`;
