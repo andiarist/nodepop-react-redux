@@ -6,9 +6,8 @@ import ConfirmationButton from '../shared/ConfirmationButton';
 
 import { connect } from 'react-redux';
 import { logout } from '../../store/actions';
-import { getIsLogged } from '../../store/selectors';
 
-function LogoutButton({ logout, ...props }) {
+export function LogoutButton({ logout, ...props }) {
   const handleLogout = () => {
     logout();
   };

@@ -13,9 +13,6 @@ function TagsSelect({ tags, getTags, ...props }) {
     getTags();
   }, []);
 
-  //console.log('tags on tagsselect:', tags);
-
-  //const { tagsList: tags } = props;
   return (
     <Select
       allowClear
@@ -40,7 +37,7 @@ const mapStateToProps = state => {
   };
 };
 const mapDispatchToProps = dispatch => ({
-  getTags: tags => dispatch(getTags()),
+  getTags: () => dispatch(getTags()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagsSelect);

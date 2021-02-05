@@ -22,8 +22,6 @@ import {
   ADVERTS_DELETED_FAILURE,
 } from './types';
 
-//import * as auth from '../api/auth';
-
 import { getTagList, getAdvertsList, getIsLogged } from './selectors';
 
 export const authLoginRequest = () => ({

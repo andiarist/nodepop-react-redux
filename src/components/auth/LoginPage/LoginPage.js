@@ -49,5 +49,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(login(credentials, location, history)),
 });
 
-//export default connect(getUi, login)(LoginPage);
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

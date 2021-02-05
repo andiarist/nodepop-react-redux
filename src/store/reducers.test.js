@@ -16,9 +16,7 @@ describe('Testing adverts', () => {
       features: 'feat',
     },
   ];
-  //const initialState = [{}, {}, {}];
   test('should manage ADVERTS_LOADED_SUCCESS action', () => {
-    //console.log(initialState);
     const action = {
       type: ADVERTS_LOADED_SUCCESS,
       payload: initialState,

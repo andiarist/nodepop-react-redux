@@ -1,11 +1,9 @@
 import React from 'react';
 //import T from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
-//import { connect } from 'react-redux';
 
 import { PrivateRoute, LoginPage } from '../auth';
 import { AdvertPage, AdvertsPage, NewAdvertPage } from '../adverts';
-//import { AuthContextProvider } from '../../contexts/auth';
 import NotFoundPage from './NotFoundPage';
 
 function App() {

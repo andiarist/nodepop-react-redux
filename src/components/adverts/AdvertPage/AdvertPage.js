@@ -23,7 +23,6 @@ function AdvertPage({ advertDetail, advertLoaded, advertDeleted, ...props }) {
 
   const handleDeleteClick = () => {
     const { history } = props;
-    //deleteAdvert(getAdvertId).then(() => history.push('/'));
     advertDeleted(getAdvertId, history);
   };
 

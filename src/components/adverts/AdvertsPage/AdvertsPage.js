@@ -83,8 +83,6 @@ function AdvertsPage({ advertsLoaded, getAdvertsList, getUi }) {
 
   const renderAdverts = () => {
     const { loading, error } = getUi;
-    //const adverts = getAdvertsList;
-    //console.log(getAdvertsList);
 
     if (loading) {
       return renderLoading();
@@ -122,7 +120,6 @@ function AdvertsPage({ advertsLoaded, getAdvertsList, getUi }) {
 
   useEffect(() => {
     getAdverts();
-    //console.log('filters:', filters);
   }, [filters]);
 
   return (
@@ -137,10 +134,7 @@ function AdvertsPage({ advertsLoaded, getAdvertsList, getUi }) {
 
 AdvertsPage.propTypes = {
   advertsLoaded: T.func,
-  //getAdvertsInfo: T.object,
   getAdvertsList: T.array,
-  //getAdvertsLoading: T.bool,
-  //getAdvertsError: T.bool,
 };
 
 const mapStateToProps = state => {
